@@ -33,8 +33,8 @@ Any algorithms or special techniques that will be necessary
 - Allow users to weight how much they should be spending on each item (ex. If one user uses may more milk, the group could be set up so that they need to buy twice as many. If they have 7 and the other members have 4, then the user with 7 still needs to buy the milk even though they have the most.)
 
 Electronic mockups of what your team will be developing using wireframes. No hand-drawn mockups accepted.
--The main page
+- The main page
 ![Main Page](main_wireframe.png)
 
--Adding a new group
+- Adding a new group
 ![Add New Group Page](newgroup_wireframe.png)
