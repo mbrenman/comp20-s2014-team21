@@ -34,7 +34,7 @@ Any algorithms or special techniques that will be necessary
 
 Electronic mockups of what your team will be developing using wireframes. No hand-drawn mockups accepted.
 -The main page
-![Main Page](main_wireframe.jpg)
+![Main Page](main_wireframe.png)
 
 -Adding a new group
-![Add New Group Page](newgroup_wireframe.jpg)
+![Add New Group Page](newgroup_wireframe.png)
