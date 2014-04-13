@@ -50,18 +50,23 @@ app.post('/newGroup.json', function (req, res){
 		var groupname = req.body.groupname;
 		var members = req.body.members;
 		var items = req.body.items;
-		// var supplies = {}
-		// for(var i=0; i<items.length; i++){
-		// 	var itemname = items[i];
-		// 	for(var j=0; j<members.length; j++){
-		// 		var uname = members[j];
-		// 		supplies[itemname][uname] = 0;
-		// 	}
-		// }
-		// console.log(supplies);
-		console.log(groupname);
-		console.log(members);
-		console.log(items);
+		var supplies = {}
+		for(var i=0; i<items.length; i++){
+			var itemname = items[i];
+			supplies[itemname] = {}
+			for(var j=0; j<members.length; j++){
+				var uname = members[j];
+				supplies[itemname][uname] = 0;
+			}
+		}
+		console.log(supplies);
+		var data = {}
+		data[groupname] = supplies
+		collection.insert(data, function (err, r){});
+        res.send("Successful entry!\n");
+		// console.log(groupname);
+		// console.log(members);
+		// console.log(items);
 		res.send('success!');
 	});
   });
