@@ -60,8 +60,9 @@ app.post('/newGroup.json', function (req, res){
 			}
 		}
 		console.log(supplies);
-		var data = {}
-		data[groupname] = supplies
+		var data = {};
+		data["groupname"] = groupname;
+		data["supplies"] = supplies;
 		collection.insert(data, function (err, r){});
         res.send("Successful entry!\n");
 		// console.log(groupname);
@@ -70,6 +71,34 @@ app.post('/newGroup.json', function (req, res){
 		res.send('success!');
 	});
   });
+});
+
+app.post('/incrementItem.json', function(req, res){
+	mongo.Db.connect(mongoUri, function (err, db){
+		db.collection("groups", function (er, col){
+			var groupname = req.body.groupname;
+			var name = req.body.name;
+			var item = req.body.item;
+			console.log(groupname);
+			col.find({groupname : groupname}).toArray(function(e, x){
+				var newGroup = {
+					groupname: groupname,
+					supplies: x[0]["supplies"]
+				};
+				console.log(x[0]);
+				console.log(item);
+				console.log(name);
+				console.log(newGroup["supplies"][item][name])
+				
+				var quantity = parseInt(newGroup["supplies"][item][name]);
+				newGroup["supplies"][item][name] = quantity + 1;
+				console.log(x[0]["_id"]);
+				col.remove({groupname : groupname}, function (error, result){});
+				col.insert(newGroup, function (err, r){});
+	        	res.send("Successful Update!\n");
+			});
+		});
+	});
 });
 
 http.createServer(app).listen(app.get('port'), function(){
