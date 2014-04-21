@@ -92,7 +92,7 @@ function addGroupToUsers(members, groupname){
 		(function(username) {
 			User.findOne({ name: username }, function(err, obj) {
 	  			if (err) return console.error(err);
-	  			console.log('~~~~~~~~~~~~~~\n' + obj+ '\n~~~~~~~~~~~~~~\n' + username + '\n~~~~~~~~~~~~~~\n');
+	  			console.log('~~~~~~~~~~~~~~\n' + obj + '\n~~~~~~~~~~~~~~\n' + username + '\n~~~~~~~~~~~~~~\n');
 	  			if (!obj) {
 	  				var groups = new Array();
 	  				groups[0] = groupname;
@@ -106,7 +106,26 @@ function addGroupToUsers(members, groupname){
 				  		console.dir(r);
 					});
 	  			} else {
-	  				console.log('\n\n\n' + obj + '\n\n\n');
+	  				console.log('\n\n\n' + obj['groups'] + '\n\n\n');
+	  				var shouldAdd = true;
+	  				for(var j=0; j<obj.length; j++){
+	  					if (obj[j] == username){
+	  						shouldAdd = false;
+	  					}
+	  				}
+	  				if (shouldAdd){
+	  					var newgroups = obj['groups']
+	  					newgroups[newgroups.length] = groupname
+		  				var n = new User({
+		  					name: obj['name'],
+		  					groups: newgroups
+		  				});
+		  				n.save(function(err, r) {
+							if (err) return console.error(err);
+					  		console.dir(r);
+					  		obj.remove();
+						});
+	  				}
 	  			}
 	  		});
 		}(username));
