@@ -72,12 +72,14 @@ app.get('/mygroups', function (req, res){
 			res.send("no obj");  
 		} else {
 			console.log(obj + "\n\n\n"); 
-			res.send(obj);
+			//res.send(obj);
+			res.render('mygroups', {
+				title: 'My Groups',
+				obj : obj["groups"]
+			});
 		}
 	});
 });
-
-
 
 app.post('/newGroup.json', function (req, res){
    	console.log('\n\n\n' + req.body + '\n\n\n');
