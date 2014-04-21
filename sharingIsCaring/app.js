@@ -41,23 +41,7 @@ var db = mongoose.connection;
 // mongoose
 mongoose.connect('mongodb://localhost/local');
 
-// var itemSchema = new mongoose.Schema({
-// 	member: String, 
-// 	quantity: Number 
-// });
-
-// var supplySchema = new mongoose.Schema({
-// 	supplies: 
-// 	{
-// 		item: itemSchema
-// 	}
-// });
-
-// var groupSchema = new mongoose.Schema({
-//   name: String
-// , supplies: supplySchema
-// });
-
+//Schemas
 var groupSchema = new mongoose.Schema({
 	name: String,
 	supplies: { type: mongoose.Schema.Types.Mixed }
@@ -65,46 +49,69 @@ var groupSchema = new mongoose.Schema({
 
 var Group = mongoose.model('Group', groupSchema);
 
+var userSchema = new mongoose.Schema({
+	name: String,
+	groups: [ String ] //Groups that the member belongs to
+});
+
+var User = mongoose.model('User', userSchema);
+
 // routes
 require('./routes')(app);
 
 app.post('/newGroup.json', function (req, res){
-  // mongo.Db.connect(mongoUri, function (err, db){
-    // db.collection("groups", function (er, collection){
-    	console.log('\n\n\n' + req.body + '\n\n\n');
-		var groupname = req.body.groupname;
-		var members = req.body.members;
-		var items = req.body.items;
-		var supplylist = {}
-		for(var i=0; i<items.length; i++){
-			var itemname = items[i];
-			supplylist[itemname] = {}
-			for(var j=0; j<members.length; j++){
-				var uname = members[j];
-				supplylist[itemname][uname] = 0;
-			}
+   	console.log('\n\n\n' + req.body + '\n\n\n');
+	var groupname = req.body.groupname;
+	var members = req.body.members;
+	var items = req.body.items;
+	var supplylist = {}
+	for(var i=0; i<items.length; i++){
+		var itemname = items[i];
+		supplylist[itemname] = {}
+		for(var j=0; j<members.length; j++){
+			var uname = members[j];
+			supplylist[itemname][uname] = 0;
 		}
-
-		var data = {};
-		data["groupname"] = groupname;
-		data["supplies"] = supplylist;
-
-		var d = new Group({
-			name: groupname,
-			supplies: supplylist
-		});
-
-		d.save(function(err, r) {
- 			if (err) return console.error(err);
-  			console.dir(r);
-		});
-		// console.log(supplies);
-
-		// collection.insert(data, function (err, r){});
-        res.send("Successful entry!\n");
-	// });
-  // });
+	}
+	var d = new Group({
+		name: groupname,
+		supplies: supplylist
+	});
+	d.save(function(err, r) {
+		if (err) return console.error(err);
+  		console.dir(r);
+	});
+	addGroupToUsers(members, groupname);
+    res.send("Successful entry!\n");
 });
+
+function addGroupToUsers(members, groupname){
+	for(var i=0; i<members.length; i++){
+		var username = members[i];
+		console.log(username);
+		(function(username) {
+			User.findOne({ name: username }, function(err, obj) {
+	  			if (err) return console.error(err);
+	  			console.log('~~~~~~~~~~~~~~\n' + obj+ '\n~~~~~~~~~~~~~~\n' + username + '\n~~~~~~~~~~~~~~\n');
+	  			if (!obj) {
+	  				var groups = new Array();
+	  				groups[0] = groupname;
+	  				
+	  				var n = new User({
+	  					name: username,
+	  					groups: groups
+	  				});
+	  				n.save(function(err, r) {
+						if (err) return console.error(err);
+				  		console.dir(r);
+					});
+	  			} else {
+	  				console.log('\n\n\n' + obj + '\n\n\n');
+	  			}
+	  		});
+		}(username));
+	}
+}
 
 app.post('/incrementItem.json', function(req, res){
 	var groupname = req.body.groupname;
@@ -125,32 +132,6 @@ app.post('/incrementItem.json', function(req, res){
 		r.remove();
   		res.send("Updated!\n");
 	});
-
-	// mongo.Db.connect(mongoUri, function (err, db){
-	// 	db.collection("groups", function (er, col){
-	// 		var groupname = req.body.groupname;
-	// 		var name = req.body.name;
-	// 		var item = req.body.item;
-	// 		console.log(groupname);
-	// 		col.find({groupname : groupname}).toArray(function(e, x){
-	// 			var newGroup = {
-	// 				groupname: groupname,
-	// 				supplies: x[0]["supplies"]
-	// 			};
-	// 			console.log(x[0]);
-	// 			console.log(item);
-	// 			console.log(name);
-	// 			console.log(newGroup["supplies"][item][name])
-				
-	// 			var quantity = parseInt(newGroup["supplies"][item][name]);
-	// 			newGroup["supplies"][item][name] = quantity + 1;
-	// 			console.log(x[0]["_id"]);
-	// 			col.remove({groupname : groupname}, function (error, result){});
-	// 			col.insert(newGroup, function (err, r){});
-	//         	res.send("Successful Update!\n");
-	// 		});
-	// 	});
-	// });
 });
 
 app.listen(app.get('port'), function(){
