@@ -24,3 +24,16 @@ User:
 		“name”: String
 		“groups”: [ list of Strings (associated group names) ]
 	}
+
+Curl commands (to test):
+
+Making new groups:
+
+curl -X POST -H "Content-Type: application/json" -d '{"groupname":"testname","members":["matt","Tam","Ariel"],"items":["bread","milk"]}' localhost:3000/newGroup.json
+
+curl -X POST -H "Content-Type: application/json" -d '{"groupname":"newgroup","members":["Brett","Tam","Ariel"],"items":["cheese","bbq"]}' localhost:3000/newGroup.json
+
+
+Incrementing item count in group:
+
+curl --data "groupname=testname&name=matt&item=bread" localhost:3000/incrementItem.json
