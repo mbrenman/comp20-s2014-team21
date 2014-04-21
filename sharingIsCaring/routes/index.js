@@ -7,3 +7,8 @@ exports.index = function(req, res){
 exports.ping = function(req, res){
   res.send("pong!", 200);
 };
+
+exports.mygroups = function(res, res){
+	var userName = req.user.username; 
+	res.send(userName); 
+};

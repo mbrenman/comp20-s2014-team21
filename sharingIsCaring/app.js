@@ -59,6 +59,26 @@ var User = mongoose.model('User', userSchema);
 // routes
 require('./routes')(app);
 
+app.get('/mygroups', function (req, res){
+	var userName = req.user.username; 
+	User.findOne({ name: userName }, function (err, obj) {
+		console.log("start \n"); 
+		if (err) {
+			console.log(err + "\n\n\n"); 
+			res.send(err); 
+		}
+		if (!obj) {
+			console.log("no object");
+			res.send("no obj");  
+		} else {
+			console.log(obj + "\n\n\n"); 
+			res.send(obj);
+		}
+	});
+});
+
+
+
 app.post('/newGroup.json', function (req, res){
    	console.log('\n\n\n' + req.body + '\n\n\n');
 	var groupname = req.body.groupname;
