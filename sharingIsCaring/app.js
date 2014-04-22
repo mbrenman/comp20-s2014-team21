@@ -182,6 +182,15 @@ app.post('/incrementItem.json', function(req, res){
   			supplies: r.supplies
   		});
   		new_doc.supplies[item][name] += 1;
+  		var min_name = name;
+  		var min = new_doc.supplies[item][name];
+  		for (iter in new_doc.supplies[item]) {
+  			if (new_doc.supplies[item][iter] <= min) {
+  				min_name = iter;
+  				min = new_doc.supplies[item][iter];
+  			}	
+  		}
+  		console.log("min person is: ", min_name, " ", min);
   		new_doc.save(function(err, r) {
  			if (err) return console.error(err);
   			console.dir(r);
