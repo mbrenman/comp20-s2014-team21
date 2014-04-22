@@ -6,6 +6,14 @@ html
     link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
     script(src='http://code.jquery.com/jquery.js')
     script(src='js/bootstrap.min.js')
+    script(type= 'text/javascript').
+      $(document).ready(function(){
+        $("p").click(function(){
+          var groupName = $(this).text(); 
+          console.log(groupName); 
+          window.location.href = 'http://localhost:3000/supplies?name='+groupName; 
+          });
+        });
   body
   .container
     block content 

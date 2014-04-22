@@ -68,17 +68,33 @@ app.get('/mygroups', function (req, res){
 			res.send(err); 
 		}
 		if (!obj) {
-			console.log("no object");
 			res.send("no obj");  
 		} else {
-			console.log(obj + "\n\n\n"); 
-			//res.send(obj);
 			res.render('mygroups', {
 				title: 'My Groups',
 				obj : obj["groups"]
 			});
 		}
 	});
+});
+
+app.get('/supplies', function (req, res){
+	var groupName = req.query.name; 
+	Group.findOne({ name: groupName }, function (err, obj) {
+		if (err) {
+			console.log(err+"\n\n\n");
+			res.send(err); 
+		}
+		if (!obj) {
+			res.send("no object"); 
+		} else {
+			console.log(obj); 
+			res.render('supplies', {
+				title: 'Supplies',
+				obj: obj["supplies"]
+			}) 
+		}
+	}); 
 });
 
 app.post('/newGroup.json', function (req, res){
