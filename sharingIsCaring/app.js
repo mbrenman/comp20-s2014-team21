@@ -174,6 +174,7 @@ app.post('/incrementItem.json', function(req, res){
 	var groupname = req.body.groupname;
 	var name = req.body.name;
 	var item = req.body.item;
+	var amount = parseInt(req.body.amount);
 	Group.findOne({ name: groupname }, function(err, r) {
   		if (err) return console.error(err);
   		console.log(r);
@@ -181,7 +182,7 @@ app.post('/incrementItem.json', function(req, res){
   			name: r.name,
   			supplies: r.supplies
   		});
-  		new_doc.supplies[item][name] += 1;
+  		new_doc.supplies[item][name] += amount;
   		var min_name = name;
   		var min = new_doc.supplies[item][name];
   		for (iter in new_doc.supplies[item]) {
