@@ -19,6 +19,8 @@ html
       a(href="/register") Register
     if (user)
       p You are currently logged in as #{user.username}
+      a(href="/mygroups") My Groups
+      br
       a(href="/logout") Logout
 
   script(src='http://code.jquery.com/jquery.js')
