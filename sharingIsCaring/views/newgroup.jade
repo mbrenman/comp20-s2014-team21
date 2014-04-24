@@ -1,0 +1,42 @@
+html
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
+  body
+  	#top
+		p#title Enter new group information.
+	#middle
+		#left
+			p#leftP sdfasdfsadfjaslfdkjasl;dfj;asdfj;askdfjals;kdfjals;kdfja;slkdfjasjkfghsdlkfjghsdkjlfghsjakdfkl;asjdf
+		#right
+			p#rightP New Group Info
+			#groupNameDiv
+				p#groupNameText Group Name:
+				input#groupNameInput
+			.separator
+			#membersDiv
+				p#members Members
+				button#moreMembers(onclick="addMember();") +
+				button#removeMember(onclick="removeMember();") -
+				.member
+					p.memberName Member Name: 
+					input.memberNameInput
+			.separator
+			#itemsDiv
+				p#items Items
+				button#moreItems(onclick="addItem();") +
+				button#removeItem(onclick="removeItem();") -
+				.item
+					p.itemName Item Name:
+					input.itemNameInput
+					p.itemNumber Item Number:
+					input.itemNumberInput
+					p.itemPrice Price per item:
+					input.itemPrice
+			.separator
+			button#submit(onclick="submit()") Create Group
+	#bottom
+		p#bottomP Comp 20 - Final Project - Name1 Name2 Name3 Name4

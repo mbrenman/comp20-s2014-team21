@@ -6,21 +6,26 @@ html
     script(src='http://code.jquery.com/jquery.js')
     script(src='js/bootstrap.min.js')
   body
-  .container
-    block content 
-      a(href="/") Go home
-      br
-      a(href="/mygroups") My Groups
-      h1.
-        Supplies 
-      each object, k in obj
-        table
-          tbody
-            tr
-              td
-                h4()=k
-            br
-          each supply, i in object
-            tr
-              td()= i
-              td()= supply
+    .container
+      block content 
+        div.navbar.navbar-default
+          a(href="/").container Go home
+          a(href="/mygroups").container My Groups
+        h1.
+          Supplies 
+        each object, k in obj
+          h2()=k
+          table.table
+            tbody
+              tr
+                td
+                  h3= "Name"
+                td
+                  h3= "Number"
+            each supply, i in object
+              tr
+                td
+                  h4= i
+                td
+                  h4= supply
+          br
