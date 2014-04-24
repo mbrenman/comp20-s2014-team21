@@ -91,7 +91,8 @@ app.get('/supplies', function (req, res){
 			console.log(obj); 
 			res.render('supplies', {
 				title: 'Supplies',
-				obj: obj["supplies"]
+				obj: obj["supplies"],
+				groupname: groupName
 			}) 
 		}
 	}); 

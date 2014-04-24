@@ -12,7 +12,8 @@ html
           a(href="/").container Go home
           a(href="/mygroups").container My Groups
         h1.
-          Supplies 
+          Supplies
+        h1().grouptitle=groupname
         each object, k in obj
           h2()=k
           table.table
