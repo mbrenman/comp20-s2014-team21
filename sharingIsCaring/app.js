@@ -97,6 +97,10 @@ app.get('/supplies', function (req, res){
 	}); 
 });
 
+app.get('/newgroup', function (req, res) {
+	res.render('newgroup'); 
+})
+
 app.post('/newGroup.json', function (req, res){
    	console.log('\n\n\n' + req.body + '\n\n\n');
 	var groupname = req.body.groupname;

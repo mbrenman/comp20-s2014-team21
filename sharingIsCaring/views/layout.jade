@@ -1,0 +1,52 @@
+doctype html
+html
+	head
+		title= title
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+		script(src='http://code.jquery.com/jquery.js')
+		script(src='js/bootstrap.min.js')
+		//script(type="text/javascript" src="javascript.js")
+		script.
+			function addMember(){
+				$('#membersDiv').append("</div><div class='member'><p class='memberName'>Member Name:</p><input class='memberNameInput'>")
+			}
+			function removeMember(){
+				$('.member:last-of-type').remove();
+			}
+			function addItem(){
+				$('#itemsDiv').append("<div class='item'><p class='itemName'>Item Name:</p><input class='itemNameInput'>");
+			}
+			function removeItem(){
+				$('.item:last-of-type').remove();
+			}
+			function submit(){
+				var groupName = document.getElementById('groupNameInput').value;
+
+				var memberNames = [];
+				var groupItems = []; 
+
+				$("input[class=memberNameInput]").each(function () {
+					memberNames.push($(this).val());  
+				});
+
+				$("input[class=itemNameInput]").each(function () {
+					groupItems.push($(this).val()); 
+				});
+
+				$.ajax
+				({
+					type: "POST",
+					url: 'http://localhost:3000/newGroup.json',
+					dataType: 'json', 
+					async: false,
+					data: {"groupname": groupName, "members": memberNames, "items": groupItems},
+					success: function () {
+						console.log("k THX");
+					}
+					});
+
+				window.location.href = 'http://localhost:3000/mygroups'
+			}
+	body
+	block content
