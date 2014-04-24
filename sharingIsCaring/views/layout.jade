@@ -9,13 +9,13 @@ html
 		//script(type="text/javascript" src="javascript.js")
 		script.
 			function addMember(){
-				$('#membersDiv').append("</div><div class='member'><p class='memberName'>Member Name:</p><input class='memberNameInput'>")
+				$('#membersDiv').append("</div><div class='member'><h4 class='memberName'>Member Name:</h4><input class='memberNameInput'>")
 			}
 			function removeMember(){
 				$('.member:last-of-type').remove();
 			}
 			function addItem(){
-				$('#itemsDiv').append("<div class='item'><p class='itemName'>Item Name:</p><input class='itemNameInput'>");
+				$('#itemsDiv').append("<div class='item'><h4 class='itemName'>Item Name:</h4><input class='itemNameInput'>");
 			}
 			function removeItem(){
 				$('.item:last-of-type').remove();

@@ -8,34 +8,29 @@ html
 		script(src='http://code.jquery.com/jquery.js')
 		script(src='js/bootstrap.min.js')
 	body
-	.container
 		block content
-			#top
-				p#title Enter new group information.
-			#middle
-				#left
-					p#leftP 
-				#right
-					p New Group Info
-					#groupNameDiv
-						p#groupNameText Group Name:
-						input#groupNameInput
-					.separator
-					#membersDiv
-						p#members Members
-						button#moreMembers(onclick="addMember();") +
-						button#removeMember(onclick="removeMember();") -
-						.member
-							p.memberName Member Name: 
-							input.memberNameInput
-					.separator
-					#itemsDiv
-						p#items Items
-						button#moreItems(onclick="addItem();") +
-						button#removeItem(onclick="removeItem();") -
-						.item
-							p.itemName Item Name:
-							input.itemNameInput
-					.separator
+			.container
+				h1 Enter new group information.
+			.container
+				h2 New Group Info
+				div
+					h3 Name:
+					input#groupNameInput
+				.separator
+					h3 Members
+					button#moreMembers(onclick="addMember();") +
+					button#removeMember(onclick="removeMember();") -
+					div(id="membersDiv")
+					.member
+
+				.separator
+					h3 Items
+					button#moreItems(onclick="addItem();") +
+					button#removeItem(onclick="removeItem();") -
+					div(id="itemsDiv")
+					.item
+
+				.separator
+					br
 					button#submit(onclick="submit()") Create Group
 			#bottom

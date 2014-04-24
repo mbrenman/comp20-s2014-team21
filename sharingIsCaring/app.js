@@ -206,6 +206,111 @@ app.post('/incrementItem.json', function(req, res){
 	});
 });
 
+app.post('/newItem', function (req, res){
+	console.log('\n\n\n' + req.body + '\n\n\n');
+	var groupName = req.body.groupname;
+	var newItem = req.body.item;
+	// console.log(groupName);
+	// console.log(newItem);
+	Group.findOne({ name: groupName }, function (err, obj) {
+		if (err) {
+			console.log(err+"\n\n\n");
+			res.send(err); 
+		}
+		if (!obj) {
+			res.send("no object"); 
+		} else {
+			console.log(obj); 
+			/*res.render('supplies', {
+				title: 'Supplies',
+				obj: obj["supplies"]
+			})*/ 
+			var newSupply = {};
+			var peopleArray = [];
+			for (item in obj.supplies) {
+				// console.log(obj.supplies[item]);
+				for (people in obj.supplies[item]) {
+					console.log(people);
+					newSupply[people] = 0;
+				}
+				break;
+				// array.push(item);
+			}
+			newItemList = {};
+			newItemList[newItem] = newSupply;
+			console.log(newSupply);
+			console.log(newItemList);
+			new_doc = new Group ({
+				name: obj.name,
+				supplies: obj.supplies
+			});
+			console.log(new_doc);
+			new_doc.supplies[newItem] = newSupply;
+			console.log(new_doc);
+			new_doc.save(function(err, r){
+				if (err) return console.error(err);
+				console.dir(r);
+				obj.remove();
+			})
+			// console.log(newItem);
+			res.send('New item added!');
+		}
+	}); 
+});
+
+app.post('/removeItem', function(req,res) {
+	console.log('\n\n\n' + req.body + '\n\n\n');
+	var groupName = req.body.groupname;
+	var removeItem = req.body.item;
+	// console.log(groupName);
+	console.log("I am removing: ", removeItem);
+	Group.findOne({ name: groupName }, function (err, obj) {
+		if (err) {
+			console.log(err+"\n\n\n");
+			res.send(err); 
+		}
+		if (!obj) {
+			res.send("no object"); 
+		} else {
+			// console.log(obj); 
+			/*res.render('supplies', {
+				title: 'Supplies',
+				obj: obj["supplies"]
+			})*/ 
+			var newSupply = {};
+			var peopleArray = [];
+			for (item in obj.supplies) {
+				if (item == removeItem) {
+					console.log("found it");
+					console.log(obj.supplies[item]);
+				}
+				if (item != removeItem) {
+					newSupply[item] = obj.supplies[item];
+				}
+				// array.push(item);
+			}
+			console.log(newSupply);
+			/*newItemList = {};
+			newItemList[newItem] = newSupply;
+			console.log(newSupply);
+			console.log(newItemList);*/
+			new_doc = new Group ({
+				name: obj.name,
+				supplies: newSupply
+			});
+			console.log(new_doc);
+			// new_doc.supplies[newItem] = newSupply;
+			// console.log(new_doc);
+			new_doc.save(function(err, r){
+				if (err) return console.error(err);
+				console.dir(r);
+				obj.remove();
+			})
+			// console.log(newItem);
+		}
+	}); 
+});
+
 app.listen(app.get('port'), function(){
   console.log(("Express server listening on port " + app.get('port')))
 });
