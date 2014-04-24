@@ -253,6 +253,7 @@ app.post('/newItem', function (req, res){
 				obj.remove();
 			})
 			// console.log(newItem);
+			res.send('New item added!');
 		}
 	}); 
 });
