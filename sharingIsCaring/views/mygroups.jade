@@ -8,7 +8,7 @@ html
     script(src='js/bootstrap.min.js')
     script(type= 'text/javascript').
       $(document).ready(function(){
-        $("p").click(function(){
+        $("h2").click(function(){
           var groupName = $(this).text(); 
           console.log(groupName); 
           window.location.href = 'http://localhost:3000/supplies?name='+groupName; 
@@ -17,8 +17,13 @@ html
   body
   .container
     block content 
-      a(href="/") Go home
+      div.navbar.navbar-default
+        a(href="/") Go home
       h1.
         User Groups
-      each object, i in obj
-        p()= object 
+      table.table
+        tbody
+          each object, i in obj
+            tr
+              td
+                h2= object 
