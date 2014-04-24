@@ -5,6 +5,34 @@ html
     link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
     script(src='http://code.jquery.com/jquery.js')
     script(src='js/bootstrap.min.js')
+    script(type= 'text/javascript').
+      $(document).ready(function(){
+        $(".userName").click(function(){
+          var groupName = $('.grouptitle').html();
+          var userName = $(this).html();  
+          var supply = this.id; 
+          var increment = parseInt(prompt("Increment by how much?")); 
+
+          while( isNaN(increment) ) {
+          increment = parseInt(prompt("Please enter a valid integer!")); 
+          }; 
+
+          console.log(groupName); 
+          console.log(userName); 
+          console.log(supply); 
+          console.log(increment); 
+
+          $.ajax
+          ({
+            type: "POST",
+            url: 'http://localhost:3000/incrementItem.json', 
+            async: false,
+            data: {"groupname": groupName,"name": userName,"item": supply,"amount": increment}, 
+            });
+
+          window.location.reload(); 
+          });
+        });
   body
     .container
       block content 
@@ -26,7 +54,7 @@ html
             each supply, i in object
               tr
                 td
-                  h4= i
+                  h4.userName(id= k)= i 
                 td
                   h4= supply
           br
