@@ -11,20 +11,20 @@ html
         div.navbar.navbar-default
           a(href="/").container Go home
           a(href="/mygroups").container My Groups
-        h1.
-          Supplies
+        h1 Supplies
         h1().grouptitle=groupname
+        br
         each object, k in obj
           h2()=k
           table.table
             tbody
-              tr
+              tr.table-bordered
                 td
                   h3= "Name"
                 td
                   h3= "Number"
             each supply, i in object
-              tr
+              tr.table-bordered
                 td
                   h4= i
                 td

@@ -60,7 +60,12 @@ var User = mongoose.model('User', userSchema);
 require('./routes')(app);
 
 app.get('/mygroups', function (req, res){
-	var userName = req.user.username; 
+	try {
+		var userName = req.user.username; 
+	} catch (e) {
+		res.redirect('/');
+	}
+
 	User.findOne({ name: userName }, function (err, obj) {
 		console.log("start \n"); 
 		if (err) {
