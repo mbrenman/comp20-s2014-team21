@@ -71,17 +71,18 @@ app.get('/mygroups', function (req, res){
 		if (err) {
 			console.log(err + "\n\n\n"); 
 			res.send(err); 
-		}
-		if (!obj) {
-			res.render('mygroups', {
-				title: 'My Groups',
-				obj : []
-			}); 
 		} else {
-			res.render('mygroups', {
-				title: 'My Groups',
-				obj : obj["groups"]
-			});
+			if (!obj) {
+				res.render('mygroups', {
+					title: 'My Groups',
+					obj : []
+				}); 
+			} else {
+				res.render('mygroups', {
+					title: 'My Groups',
+					obj : obj["groups"]
+				});
+			}
 		}
 	});
 });
@@ -91,9 +92,9 @@ app.get('/supplies', function (req, res){
 		var userName = req.user.username; 
 	} catch (e) {
 		res.redirect('/');
+		return;
 	}
 
-	var userName = req.user.username; 
 	var groupName = req.query.name; 
 
 	User.findOne({ name: userName }, function (err, obj) {
