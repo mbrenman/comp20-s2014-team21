@@ -73,7 +73,10 @@ app.get('/mygroups', function (req, res){
 			res.send(err); 
 		}
 		if (!obj) {
-			res.send("no obj");  
+			res.render('mygroups', {
+				title: 'My Groups',
+				obj : []
+			}); 
 		} else {
 			res.render('mygroups', {
 				title: 'My Groups',
