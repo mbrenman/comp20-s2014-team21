@@ -90,7 +90,23 @@ app.get('/supplies', function (req, res){
 		res.redirect('/');
 	}
 
+	var userName = req.user.username; 
 	var groupName = req.query.name; 
+
+	User.findOne({ name: userName }, function (err, obj) {
+		if(err) {
+			res.send(err); 
+		} else if (!obj){
+			res.redirect('/mygroups'); 
+		} else {
+			var userGroups = obj["groups"]; 
+			if (userGroups.indexOf(groupName) < 0){
+				res.redirect('/mygroups');
+			};
+		}
+
+	});
+
 	Group.findOne({ name: groupName }, function (err, obj) {
 		if (err) {
 			console.log(err+"\n\n\n");
