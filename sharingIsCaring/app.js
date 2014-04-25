@@ -84,6 +84,12 @@ app.get('/mygroups', function (req, res){
 });
 
 app.get('/supplies', function (req, res){
+	try {
+		var userName = req.user.username; 
+	} catch (e) {
+		res.redirect('/');
+	}
+
 	var groupName = req.query.name; 
 	Group.findOne({ name: groupName }, function (err, obj) {
 		if (err) {
@@ -93,7 +99,7 @@ app.get('/supplies', function (req, res){
 		if (!obj) {
 			res.send("no object"); 
 		} else {
-			console.log(obj); 
+			console.log(obj);
 			res.render('supplies', {
 				title: 'Supplies',
 				obj: obj["supplies"],
@@ -104,6 +110,11 @@ app.get('/supplies', function (req, res){
 });
 
 app.get('/newgroup', function (req, res) {
+	try {
+		var userName = req.user.username; 
+	} catch (e) {
+		res.redirect('/');
+	}
 	res.render('newgroup'); 
 })
 
