@@ -141,7 +141,7 @@ app.get('/supplies', function (req, res){
 			console.dir(sortedSupplies);
 			res.render('supplies', {
 				title: 'Supplies',
-				obj: sortedSupplies,
+				obj: JSON.stringify(sortedSupplies),
 				groupname: groupName
 			}) 
 		}
