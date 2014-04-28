@@ -33,12 +33,30 @@ html
           window.location.reload(); 
           });
         });
+      function addItemToGroup(){
+        var itemName = prompt("Type in the name of item you want to add in:");
+        var groupName = $('.grouptitle').html();
+        
+        $.ajax
+        ({
+          type: "POST",
+          url: 'http://localhost:3000/newItem',
+          dataType: 'json', 
+          async: false,
+          data: {"groupname": groupName, "item": itemName},
+          success: function () {
+            console.log("k THX");
+          }
+          });
+          window.location.reload();
+      }
   body
     .container
       block content 
         div.navbar.navbar-default
           a(href="/").btn.btn-info Go home
           a(href="/mygroups").btn.btn-primary My Groups
+          button#newItem(onclick="addItemToGroup();").btn.btn-primary New Item
         h1 Supplies
         h1().grouptitle=groupname
         br
