@@ -1,7 +1,12 @@
-# User Authentication With Passport.js
-
-- In this post I’ll demonstrate how to add user authentication to Node.js with Passport.js. 
-- View the blog post here: http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/
+TODO:
+	-Change redirect routes when pushing to Heroku
+	-Change mongo connection strings when pushing to Heroku
+	-Add charts
+	-Change mobile design
+	-Figure out emailing API
+	-Make collection creation work on MongoLabs
+	-Security testing
+	-Full system testing
 
 User logins are totally done by passport, so we don’t need to worry about them and their database
 
