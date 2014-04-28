@@ -120,9 +120,28 @@ app.get('/supplies', function (req, res){
 			res.send("no object"); 
 		} else {
 			console.log(obj);
+			var list = obj["supplies"];
+			keysSorted = Object.keys(list).sort();
+			// console.log(keysSorted);
+			var sortedSupplies = {};
+			for (var i=0; i<keysSorted.length; i++) {
+				// console.log(keysSorted[i]);
+				// console.log(list[keysSorted[i]]);
+				var peopleList = list[keysSorted[i]];
+				console.log(peopleList);
+				peopleKeysSorted = Object.keys(peopleList).sort();
+				console.log(peopleKeysSorted);
+				var sortedPeople = {};
+				for (var j=0; j<peopleKeysSorted.length; j++) {
+					sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
+				}
+				// console.log(sortedPeople);
+				sortedSupplies[keysSorted[i]] = sortedPeople;
+			}
+			console.dir(sortedSupplies);
 			res.render('supplies', {
 				title: 'Supplies',
-				obj: obj["supplies"],
+				obj: sortedSupplies,
 				groupname: groupName
 			}) 
 		}
