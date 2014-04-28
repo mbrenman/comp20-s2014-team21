@@ -39,7 +39,7 @@ passport.deserializeUser(Account.deserializeUser());
 var db = mongoose.connection;
 
 // mongoose
-mongoose.connect('mongodb://localhost/local');
+mongoose.connect('mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873');
 
 //Schemas
 var groupSchema = new mongoose.Schema({
