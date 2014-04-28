@@ -63,30 +63,6 @@ html
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
-
-      function drawCharts() {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById("banana"));
-        chart.draw(data, options);
-      }
-
       function printThings(){
         console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         obj = JSON.parse('!{obj}')
@@ -99,9 +75,7 @@ html
             quant = obj[k][i];
             data.addRows([[name, quant]]);
           }
-          var options = {'title':k,
-                       'width':400,
-                       'height':300};
+          var options = {};
           //document.getElementById("banana")
 
           var chart = new google.visualization.PieChart(document.getElementById(k+'_chart'));
@@ -122,18 +96,21 @@ html
         br
         each object, k in JSON.parse(obj)
           h2=k
-          div(id= k+'_chart')
-          table.table
-            tbody
-              tr.table-bordered
-                td
-                  h3= "Name"
-                td
-                  h3= "Number"
-            each supply, i in object
-              tr.table-bordered
-                td
-                  h4.userName(id= k)= i 
-                td
-                  h4= supply
-          br
+          .container-fluid
+            .row
+              .col-md-4(id= k+'_chart')
+              .col-md-4
+                table.table
+                  tbody
+                    tr.table-bordered
+                      td
+                        h3= "Name"
+                      td
+                        h3= "Number"
+                  each supply, i in object
+                    tr.table-bordered
+                      td
+                        h4.userName(id= k)= i 
+                      td
+                        h4= supply
+          //- brx
