@@ -121,6 +121,9 @@ app.get('/supplies', function (req, res){
 		}
 		if (!obj) {
 			res.send("no object"); 
+		} else 
+		if (obj = {}) {
+			res.send("object is empty");
 		} else {
 			console.log(obj);
 			var list = obj["supplies"];
@@ -140,6 +143,9 @@ app.get('/supplies', function (req, res){
 				}
 				// console.log(sortedPeople);
 				sortedSupplies[keysSorted[i]] = sortedPeople;
+				Account.findOne({username : 'ppp'}, function (err, obj) {
+					console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
+				});
 			}
 			console.dir(sortedSupplies);
 			res.render('supplies', {
@@ -232,6 +238,11 @@ function addGroupToUsers(members, groupname){
 		}(username));
 	}
 }
+
+app.post('/removeGroup', function(req,res){
+	var userName = req.body.username;
+	var groupName = req.body.groupname;
+})
 
 app.post('/incrementItem.json', function(req, res){
 	var groupname = req.body.groupname;
@@ -365,6 +376,7 @@ app.post('/removeItem', function(req,res) {
 				obj.remove();
 			})
 			// console.log(newItem);
+			res.send("Deleted an item");
 		}
 	}); 
 });

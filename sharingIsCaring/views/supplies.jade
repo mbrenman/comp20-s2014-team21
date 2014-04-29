@@ -48,8 +48,34 @@ html
           success: function () {
             console.log("k THX");
           }
+        });
+        window.location.reload();
+      }
+
+      function removeItemFromGroup(object){
+        var itemName = prompt("Type in the name of item you want to remove:");
+        var groupName = $('.grouptitle').html();
+        obj = JSON.parse('!{obj}')
+        var found = false;
+        for (k in obj) {
+          if (k == itemName) { found = true; }
+        }
+        if (found) {
+          $.ajax
+          ({
+            type: "POST",
+            url: 'http://localhost:3000/removeItem',
+            dataType: 'JSON', 
+            async: false,
+            data: {"groupname": groupName, "item": itemName},
+            success: function () {
+              console.log("k THX");
+            }
           });
           window.location.reload();
+        } else {
+          alert("The item you entered is not shared here.");
+        }
       }
 
       //CHART SCRIPT STARTS HERE
@@ -96,6 +122,7 @@ html
           a(href="/").btn.btn-info Go home
           a(href="/mygroups").btn.btn-primary My Groups
           button#newItem(onclick="addItemToGroup();").btn.btn-primary New Item
+          button#removeItem(onclick="removeItemFromGroup();").btn.btn-primary Remove Item
         h1 Supplies
         h1().grouptitle=groupname
         br
