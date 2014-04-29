@@ -48,11 +48,11 @@ html
           success: function () {
             console.log("k THX");
           }
-          });
-          window.location.reload();
+        });
+        window.location.reload();
       }
 
-function removeItemFromGroup(object){
+      function removeItemFromGroup(object){
         var itemName = prompt("Type in the name of item you want to remove:");
         var groupName = $('.grouptitle').html();
         obj = JSON.parse('!{obj}')
@@ -65,7 +65,7 @@ function removeItemFromGroup(object){
           ({
             type: "POST",
             url: 'http://localhost:3000/removeItem',
-            dataType: 'json', 
+            dataType: 'JSON', 
             async: false,
             data: {"groupname": groupName, "item": itemName},
             success: function () {
