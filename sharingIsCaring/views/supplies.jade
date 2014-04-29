@@ -79,7 +79,7 @@ html
             }
             data.addRows([[name, quant]]);
           }
-          var options = {};
+          var options = {"backgroundColor":"#FF5050",legend:{position: 'right', textStyle: {color: 'white', fontSize: 16}},colors:['#40CC40','4A994A','158515','6FE66F','8FE68F','309999','387373','106363','63CCCC','7FCCCC']};
           //document.getElementById("banana")
           if (nonZero != -1){
             var chart = new google.visualization.PieChart(document.getElementById(k+'_chart'));

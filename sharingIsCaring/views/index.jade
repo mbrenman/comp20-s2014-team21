@@ -12,10 +12,12 @@ html
       if (!user)
         a(href="/login").btn.btn-info Login
         br
+        br
         a(href="/register").btn.btn-success Register
       if (user)
         p You are currently logged in as #{user.username}
         a(href="/mygroups").btn.btn-primary My Groups
+        br
         br
         a(href="/logout").btn.btn-success Logout
 
