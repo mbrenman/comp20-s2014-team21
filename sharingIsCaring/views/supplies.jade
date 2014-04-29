@@ -65,6 +65,7 @@ html
       // draws it.
       function printThings(){
         console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+        var nonZero = -1;
         obj = JSON.parse('!{obj}')
         for(k in obj){
           var data = new google.visualization.DataTable();
@@ -73,14 +74,18 @@ html
           for(i in obj[k]){
             name = i;
             quant = obj[k][i];
+            if (quant > 0){
+              nonZero = 1
+            }
             data.addRows([[name, quant]]);
           }
           var options = {};
           //document.getElementById("banana")
-
-          var chart = new google.visualization.PieChart(document.getElementById(k+'_chart'));
-          chart.draw(data, options);
-          console.log(k, obj[k]);
+          if (nonZero != -1){
+            var chart = new google.visualization.PieChart(document.getElementById(k+'_chart'));
+            chart.draw(data, options);
+            console.log(k, obj[k]);
+          }
         };
       }
   body
