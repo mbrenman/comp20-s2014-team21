@@ -140,6 +140,9 @@ app.get('/supplies', function (req, res){
 				}
 				// console.log(sortedPeople);
 				sortedSupplies[keysSorted[i]] = sortedPeople;
+				Account.findOne({username : 'ppp'}, function (err, obj) {
+					console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
+				});
 			}
 			console.dir(sortedSupplies);
 			res.render('supplies', {
