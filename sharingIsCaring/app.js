@@ -368,6 +368,7 @@ app.post('/removeItem', function(req,res) {
 				obj.remove();
 			})
 			// console.log(newItem);
+			res.send("Deleted an item");
 		}
 	}); 
 });
