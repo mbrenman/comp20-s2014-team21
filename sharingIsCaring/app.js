@@ -32,7 +32,10 @@ app.configure('production', function(){
 
 // passport config
 var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
+passport.use(new LocalStrategy({ usernameField: 'username',
+    							 passwordField: 'password',
+    							 emailFeild: 'email'
+								}, Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
