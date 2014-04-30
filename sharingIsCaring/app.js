@@ -115,6 +115,8 @@ app.get('/supplies', function (req, res){
 	});
 
 	Group.findOne({ name: groupName }, function (err, obj) {
+		console.log(groupName); 
+		console.log(obj); 
 		if (err) {
 			console.log(err+"\n\n\n");
 			res.send(err); 
@@ -122,7 +124,7 @@ app.get('/supplies', function (req, res){
 		if (!obj) {
 			res.send("no object"); 
 		} else 
-		if (obj = {}) {
+		if (!obj == {}) {
 			res.send("object is empty");
 		} else {
 			console.log(obj);
