@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "A template for express, NodeJS and twitter bootstrap 3",
   "main": "app.js",
-  "engines": {
-    "node": "0.10.x"
-  },
   "scripts": {
     "start": "node app.js",
     "test": "make test"

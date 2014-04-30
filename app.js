@@ -32,14 +32,17 @@ app.configure('production', function(){
 
 // passport config
 var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
+passport.use(new LocalStrategy({ usernameField: 'username',
+    							 passwordField: 'password',
+    							 emailFeild: 'email'
+								}, Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 var db = mongoose.connection;
 
 // mongoose
-mongoose.connect('mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873');
+mongoose.connect('mongodb://localhost/local');
 
 //Schemas
 var groupSchema = new mongoose.Schema({
@@ -112,17 +115,44 @@ app.get('/supplies', function (req, res){
 	});
 
 	Group.findOne({ name: groupName }, function (err, obj) {
+		console.log(groupName); 
+		console.log(obj); 
 		if (err) {
 			console.log(err+"\n\n\n");
 			res.send(err); 
 		}
 		if (!obj) {
 			res.send("no object"); 
+		} else 
+		if (!obj == {}) {
+			res.send("object is empty");
 		} else {
 			console.log(obj);
+			var list = obj["supplies"];
+			keysSorted = Object.keys(list).sort();
+			// console.log(keysSorted);
+			var sortedSupplies = {};
+			for (var i=0; i<keysSorted.length; i++) {
+				// console.log(keysSorted[i]);
+				// console.log(list[keysSorted[i]]);
+				var peopleList = list[keysSorted[i]];
+				console.log(peopleList);
+				peopleKeysSorted = Object.keys(peopleList).sort();
+				console.log(peopleKeysSorted);
+				var sortedPeople = {};
+				for (var j=0; j<peopleKeysSorted.length; j++) {
+					sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
+				}
+				// console.log(sortedPeople);
+				sortedSupplies[keysSorted[i]] = sortedPeople;
+				Account.findOne({username : 'ppp'}, function (err, obj) {
+					console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
+				});
+			}
+			console.dir(sortedSupplies);
 			res.render('supplies', {
 				title: 'Supplies',
-				obj: obj["supplies"],
+				obj: JSON.stringify(sortedSupplies),
 				groupname: groupName
 			}) 
 		}
@@ -210,6 +240,11 @@ function addGroupToUsers(members, groupname){
 		}(username));
 	}
 }
+
+app.post('/removeGroup', function(req,res){
+	var userName = req.body.username;
+	var groupName = req.body.groupname;
+})
 
 app.post('/incrementItem.json', function(req, res){
 	var groupname = req.body.groupname;
@@ -343,6 +378,7 @@ app.post('/removeItem', function(req,res) {
 				obj.remove();
 			})
 			// console.log(newItem);
+			res.send("Deleted an item");
 		}
 	}); 
 });
