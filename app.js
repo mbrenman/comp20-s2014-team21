@@ -2,13 +2,9 @@
 var path = require('path');
 var express = require('express');
 var http = require('http');
-// var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    passportLocalMongoose = require('passport-local-mongoose');
 
 // main config
 var app = express();
@@ -191,8 +187,11 @@ app.post('/newGroup.json', function (req, res){
 		supplies: supplylist
 	});
 	d.save(function(err, r) {
-		if (err) return console.error(err);
-  		console.dir(r);
+		 if(err){ 
+		    console.log("TEST Error:", err);
+		  }else{
+		    console.log("TEST success");
+		  }	
 	});
 	addGroupToUsers(members, groupname);
     res.send("Successful entry!\n");
