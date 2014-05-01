@@ -55,6 +55,7 @@ module.exports = function (app) {
       if (err) { return console.error(err); }
         console.log(json);
       });
+      res.redirect('/');
   });
   
 };
