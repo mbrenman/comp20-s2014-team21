@@ -44,7 +44,7 @@ passport.deserializeUser(Account.deserializeUser());
 
 var db = mongoose.connection;
 
-// mongoose
+// mongoose 
 mongoose.connect(mongoUri);
 
 //Schemas
