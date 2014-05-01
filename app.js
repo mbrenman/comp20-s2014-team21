@@ -42,7 +42,10 @@ passport.use(new LocalStrategy({ usernameField: 'username',
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-var db = mongoose.createConnection(mongoUri);
+var db = mongoose.connection;
+
+// mongoose
+mongoose.connect(mongoUri);
 
 //Schemas
 var groupSchema = new mongoose.Schema({
@@ -50,14 +53,14 @@ var groupSchema = new mongoose.Schema({
 	supplies: { type: mongoose.Schema.Types.Mixed }
 });
 
-var Group = db.model('Group', groupSchema);
+var Group = mongoose.model('Group', groupSchema);
 
 var userSchema = new mongoose.Schema({
 	name: String,
 	groups: [ String ] //Groups that the member belongs to
 });
 
-var User = db.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
 // routes
 require('./routes')(app);
