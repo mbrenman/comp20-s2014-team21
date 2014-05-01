@@ -1,8 +1,11 @@
 {
   "name": "node-bootstrap3-template",
-  "version": "0.0.1",
+  "version": "0.10.21",
   "description": "A template for express, NodeJS and twitter bootstrap 3",
-  "main": "app.js",
+  "main": "npm start",
+  "engines": {
+    "node": "0.10.21"
+  },
   "scripts": {
     "start": "node app.js",
     "test": "make test"
@@ -30,6 +33,7 @@
     "passport-local-mongoose": "~0.2.5",
     "mocha": "~1.14.0",
     "chai": "~1.8.1",
-    "should": "~2.1.0"
+    "should": "~2.1.0",
+    "sendgrid": "0.3.0-rc.1.7"
   }
 }

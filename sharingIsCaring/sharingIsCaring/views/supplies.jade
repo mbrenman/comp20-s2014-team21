@@ -1,0 +1,148 @@
+html
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
+    script(src='https://www.google.com/jsapi')
+    script(type= 'text/javascript').
+      $(document).ready(function(){
+        $(".userName").click(function(){
+          var groupName = $('.grouptitle').html();
+          var userName = $(this).html();  
+          var supply = this.id; 
+          var increment = parseInt(prompt("Increment by how much?")); 
+
+          while( isNaN(increment) ) {
+          increment = parseInt(prompt("Please enter a valid integer!")); 
+          }; 
+
+          console.log(groupName); 
+          console.log(userName); 
+          console.log(supply); 
+          console.log(increment); 
+
+          $.ajax
+          ({
+            type: "POST",
+            url: 'http://localhost:3000/incrementItem.json', 
+            async: false,
+            data: {"groupname": groupName,"name": userName,"item": supply,"amount": increment}, 
+            });
+
+          window.location.reload(); 
+          });
+        });
+      function addItemToGroup(){
+        var itemName = prompt("Type in the name of item you want to add in:");
+        var groupName = $('.grouptitle').html();
+        
+        $.ajax
+        ({
+          type: "POST",
+          url: 'http://localhost:3000/newItem',
+          dataType: 'json', 
+          async: false,
+          data: {"groupname": groupName, "item": itemName},
+          success: function () {
+            console.log("k THX");
+          }
+        });
+        window.location.reload();
+      }
+
+      function removeItemFromGroup(object){
+        var itemName = prompt("Type in the name of item you want to remove:");
+        var groupName = $('.grouptitle').html();
+        obj = JSON.parse('!{obj}')
+        var found = false;
+        for (k in obj) {
+          if (k == itemName) { found = true; }
+        }
+        if (found) {
+          $.ajax
+          ({
+            type: "POST",
+            url: 'http://localhost:3000/removeItem',
+            dataType: 'JSON', 
+            async: false,
+            data: {"groupname": groupName, "item": itemName},
+            success: function () {
+              console.log("k THX");
+            }
+          });
+          window.location.reload();
+        } else {
+          alert("The item you entered is not shared here.");
+        }
+      }
+
+      //CHART SCRIPT STARTS HERE
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(printThings);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function printThings(){
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+        var nonZero = -1;
+        obj = JSON.parse('!{obj}')
+        for(k in obj){
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Item');
+          data.addColumn('number', 'Quantity');
+          for(i in obj[k]){
+            name = i;
+            quant = obj[k][i];
+            if (quant > 0){
+              nonZero = 1
+            }
+            data.addRows([[name, quant]]);
+          }
+          var options = {"backgroundColor":"#FF5050",legend:{position: 'right', textStyle: {color: 'white', fontSize: 16}},colors:['#40CC40','4A994A','158515','6FE66F','8FE68F','309999','387373','106363','63CCCC','7FCCCC']};
+          //document.getElementById("banana")
+          if (nonZero != -1){
+            var chart = new google.visualization.PieChart(document.getElementById(k+'_chart'));
+            chart.draw(data, options);
+            console.log(k, obj[k]);
+          }
+        };
+      }
+  body
+    .container
+      div#banana
+      block content 
+        div.navbar.navbar-default
+          a(href="/").btn.btn-info Go home
+          a(href="/mygroups").btn.btn-primary My Groups
+          button#newItem(onclick="addItemToGroup();").btn.btn-primary New Item
+          button#removeItem(onclick="removeItemFromGroup();").btn.btn-primary Remove Item
+        h1 Supplies
+        h1().grouptitle=groupname
+        br
+        each object, k in JSON.parse(obj)
+          h2=k
+          .container-fluid
+            .row
+              .col-md-4(id= k+'_chart')
+              .col-md-4
+                table.table
+                  tbody
+                    tr.table-bordered
+                      td
+                        h3= "Name"
+                      td
+                        h3= "Number"
+                  each supply, i in object
+                    tr.table-bordered
+                      td
+                        h4.userName(id= k)= i 
+                      td
+                        h4= supply
+          //- brx
