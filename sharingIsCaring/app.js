@@ -6,6 +6,30 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL || 'mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873'
+
+
+//geolocation dependencies
+var geolocation = require('geolocation');
+
+var geolocate = require('node-geolocate');
+
+/*var geoip = require('geoip');
+var edition = geoip.check('/path/to/file');
+console.log(edition);
+var City = geoip.City;
+var city = new City('/path/to/GeoLiteCity.dat');
+var city_obj = city.lookupSync('8.8.8.8');
+console.log(city_obj);*/
+
+
+//global variables for Google Map
+var myLat = 42.418333;
+var myLng =  -71.106667;
+
+
+
 // main config
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -41,8 +65,8 @@ passport.deserializeUser(Account.deserializeUser());
 
 var db = mongoose.connection;
 
-// mongoose
-mongoose.connect('mongodb://localhost/local');
+// mongoose 
+mongoose.connect(mongoUri);
 
 //Schemas
 var groupSchema = new mongoose.Schema({
@@ -50,14 +74,14 @@ var groupSchema = new mongoose.Schema({
 	supplies: { type: mongoose.Schema.Types.Mixed }
 });
 
-var Group = mongoose.model('Group', groupSchema);
+var Group = db.model('Group', groupSchema);
 
 var userSchema = new mongoose.Schema({
 	name: String,
 	groups: [ String ] //Groups that the member belongs to
 });
 
-var User = mongoose.model('User', userSchema);
+var User = db.model('User', userSchema);
 
 // routes
 require('./routes')(app);
@@ -123,43 +147,38 @@ app.get('/supplies', function (req, res){
 		}
 		if (!obj) {
 			res.send("no object"); 
+		} else 
+		if (!obj == {}) {
+			res.send("object is empty");
 		} else {
+			console.log(obj);
 			var list = obj["supplies"];
-			if (!list) {
-				res.render('supplies', {
-					title: 'Supplies',
-					obj: JSON.stringify({}),
-					groupname: groupName
-				}) 
-			} else {
-				console.log(obj);
-				keysSorted = Object.keys(list).sort();
+			keysSorted = Object.keys(list).sort();
 			// console.log(keysSorted);
-				var sortedSupplies = {};
-				for (var i=0; i<keysSorted.length; i++) {
-					// console.log(keysSorted[i]);
-					// console.log(list[keysSorted[i]]);
-					var peopleList = list[keysSorted[i]];
-					console.log(peopleList);
-					peopleKeysSorted = Object.keys(peopleList).sort();
-					console.log(peopleKeysSorted);
-					var sortedPeople = {};
-					for (var j=0; j<peopleKeysSorted.length; j++) {
-						sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
-					}
-				// console.log(sortedPeople);
-					sortedSupplies[keysSorted[i]] = sortedPeople;
-					Account.findOne({username : 'ppp'}, function (err, obj) {
-						console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
-					});
+			var sortedSupplies = {};
+			for (var i=0; i<keysSorted.length; i++) {
+				// console.log(keysSorted[i]);
+				// console.log(list[keysSorted[i]]);
+				var peopleList = list[keysSorted[i]];
+				console.log(peopleList);
+				peopleKeysSorted = Object.keys(peopleList).sort();
+				console.log(peopleKeysSorted);
+				var sortedPeople = {};
+				for (var j=0; j<peopleKeysSorted.length; j++) {
+					sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
 				}
-				console.dir(sortedSupplies);
-				res.render('supplies', {
-					title: 'Supplies',
-					obj: JSON.stringify(sortedSupplies),
-					groupname: groupName
-				}) 
+				// console.log(sortedPeople);
+				sortedSupplies[keysSorted[i]] = sortedPeople;
+				Account.findOne({username : 'ppp'}, function (err, obj) {
+					console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
+				});
 			}
+			console.dir(sortedSupplies);
+			res.render('supplies', {
+				title: 'Supplies',
+				obj: JSON.stringify(sortedSupplies),
+				groupname: groupName
+			}) 
 		}
 	}); 
 });
@@ -170,6 +189,21 @@ app.get('/newgroup', function (req, res) {
 	} catch (e) {
 		res.redirect('/');
 	}
+	console.log("~~~~~~~~~~geolocation~~~~~~~~~~");
+	geolocation.getCurrentPosition(function (err, position) {
+  		if (err) throw err;
+  		console.log(position);
+	});
+	// geolocate(function(latLong){
+   		// var latitude = latLong[0];
+   		// var longitude = latLong[1];
+   		// console.log(latLong);
+   		// if (latitude) {
+   			// console.log("latitude is: ",latitude);
+   		// } else {
+   			// console.log("no latitude for me");
+   		// }
+	// });
 	res.render('newgroup'); 
 })
 
@@ -191,6 +225,7 @@ app.post('/newGroup.json', function (req, res){
 		name: groupname,
 		supplies: supplylist
 	});
+
 	d.save(function(err, r) {
 		if (err) return console.error(err);
   		console.dir(r);

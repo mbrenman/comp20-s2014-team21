@@ -37,7 +37,7 @@ html
 				$.ajax
 				({
 					type: "POST",
-					url: 'http://localhost:3000/newGroup.json',
+					url: 'http://sharingiscaring.herokuapp.com/newGroup.json',
 					dataType: 'json', 
 					async: false,
 					data: {"groupname": groupName, "members": memberNames, "items": groupItems},
@@ -46,7 +46,7 @@ html
 					}
 					});
 
-				window.location.href = 'http://localhost:3000/mygroups'
+				window.location.href = 'http://sharingiscaring.herokuapp.com/'
 			}
 	body
 	block content

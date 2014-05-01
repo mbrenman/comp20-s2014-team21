@@ -1,48 +1,3 @@
-TODO:
-	-Change redirect routes when pushing to Heroku
-	-Change mongo connection strings when pushing to Heroku
-	-Add charts
-	-Change mobile design
-	-Figure out emailing API
-	-Make collection creation work on MongoLabs
-	-Security testing
-	-Full system testing
-
-User logins are totally done by passport, so we don’t need to worry about them and their database
-
-Our schemas:
-
-Group:
-	Dictionary: {
-		“name” : String (the group name),
-		“supplies: Dictionary: {
-			key: String (the food item)
-			value: Dictionary: {
-				key: String (group member name)
-				value: Int (the number that have been purchased)
-			}
-		}
-	}
-
-User:
-	Dictionary: {
-		“name”: String
-		“groups”: [ list of Strings (associated group names) ]
-	}
-
-Curl commands (to test):
-
-Making new groups:
-
-curl -X POST -H "Content-Type: application/json" -d '{"groupname":"testname","members":["matt","Tam","Ariel"],"items":["bread","milk"]}' localhost:3000/newGroup.json
-
-curl -X POST -H "Content-Type: application/json" -d '{"groupname":"newgroup","members":["Brett","Tam","Ariel"],"items":["cheese","bbq"]}' localhost:3000/newGroup.json
-
-
-Incrementing item count in group:
-
-curl --data "groupname=testname&name=matt&item=bread" localhost:3000/incrementItem.json
-=======
 Comp 20 Group Project Proposal
 ==============================
 
@@ -88,4 +43,3 @@ Electronic mockups of what your team will be developing using wireframes. No han
 * What does "Database analytics" mean?
 * I don't understand the features. Features are functionality that your web application will provide.
 * At first glance, I thought this was just another spending tracking application but I think the premise of yours is quite different. I say focus on real _needs_. That is, stuff like bread, food, toilet paper, tissues, paper towels, etc. No need to track necessities like candy, comic books, etc.
->>>>>>> 3f4540d99e97acd2484f5c0b1cff266b6e2e896a
