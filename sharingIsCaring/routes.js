@@ -47,14 +47,15 @@ module.exports = function (app) {
 
   app.get('/sendemail', function(req, res){
       sendgrid.send({
-        to: 'brettgurman@gmail.com',
+        to: 'mattbrenman@gmail.com',
         from: 'sender@example.com',
-        subject: 'Hello World',
-        text: 'Sending email with NodeJS through SendGrid!'
+        subject: 'You need to buy things!',
+        text: 'Buy things!'
       }, function(err, json) {
       if (err) { return console.error(err); }
         console.log(json);
       });
+      res.redirect('/');
   })
   
 };
