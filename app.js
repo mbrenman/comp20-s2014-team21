@@ -53,14 +53,14 @@ var groupSchema = new mongoose.Schema({
 	supplies: { type: mongoose.Schema.Types.Mixed }
 });
 
-var Group = mongoose.model('Group', groupSchema);
+var Group = db.model('Group', groupSchema);
 
 var userSchema = new mongoose.Schema({
 	name: String,
 	groups: [ String ] //Groups that the member belongs to
 });
 
-var User = mongoose.model('User', userSchema);
+var User = db.model('User', userSchema);
 
 // routes
 require('./routes')(app);
@@ -189,11 +189,6 @@ app.post('/newGroup.json', function (req, res){
 		name: groupname,
 		supplies: supplylist
 	});
-	mongo.Db.connect(mongoUri, function (err, db){
-    	db.collection("groupz", function (er, col){
-    		col.insert({"name": groupname, "supplies": supplylist}, function (err, r){});
-    	});
-    });
 
 	d.save(function(err, r) {
 		if (err) return console.error(err);
