@@ -42,10 +42,7 @@ passport.use(new LocalStrategy({ usernameField: 'username',
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-var db = mongoose.connection;
-
-// mongoose
-mongoose.connect(mongoUri);
+var db = mongoose.createConnection(mongoUri);
 
 //Schemas
 var groupSchema = new mongoose.Schema({
