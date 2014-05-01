@@ -2,7 +2,7 @@
   "name": "node-bootstrap3-template",
   "version": "0.10.21",
   "description": "A template for express, NodeJS and twitter bootstrap 3",
-  "main": "app.js",
+  "main": "npm start",
   "engines": {
     "node": "0.10.21"
   },
