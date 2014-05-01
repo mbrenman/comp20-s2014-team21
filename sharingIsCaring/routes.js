@@ -1,11 +1,6 @@
 var passport = require('passport');
 var Account = require('./models/account');
 
-var sendgrid  = require('sendgrid')(
-  process.env.SENDGRID_USERNAME,
-  process.env.SENDGRID_PASSWORD
-);
-
 module.exports = function (app) {
     
   app.get('/', function (req, res) {
@@ -43,19 +38,6 @@ module.exports = function (app) {
 
   app.get('/ping', function(req, res){
       res.send("pong!", 200);
-  });
-
-  app.get('/sendemail', function(req, res){
-      sendgrid.send({
-        to: 'mattbrenman@gmail.com',
-        from: 'sender@example.com',
-        subject: 'Your turn to buy things!',
-        text: 'Sending email with NodeJS through SendGrid!'
-      }, function(err, json) {
-      if (err) { return console.error(err); }
-        console.log(json);
-      });
-      res.redirect('/');
   });
   
 };

@@ -26,7 +26,7 @@ html
           $.ajax
           ({
             type: "POST",
-            url: 'http://sharingiscaring.herokuapp.com/incrementItem.json', 
+            url: 'http://localhost:3000/incrementItem.json', 
             async: false,
             data: {"groupname": groupName,"name": userName,"item": supply,"amount": increment}, 
             });
@@ -41,7 +41,7 @@ html
         $.ajax
         ({
           type: "POST",
-          url: 'http://sharingiscaring.herokuapp.com/newItem',
+          url: 'http://localhost:3000/newItem',
           dataType: 'json', 
           async: false,
           data: {"groupname": groupName, "item": itemName},
@@ -64,7 +64,7 @@ html
           $.ajax
           ({
             type: "POST",
-            url: 'http://sharingiscaring.herokuapp.com/removeItem',
+            url: 'http://localhost:3000/removeItem',
             dataType: 'JSON', 
             async: false,
             data: {"groupname": groupName, "item": itemName},
