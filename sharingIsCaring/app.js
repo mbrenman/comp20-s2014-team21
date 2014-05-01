@@ -123,38 +123,43 @@ app.get('/supplies', function (req, res){
 		}
 		if (!obj) {
 			res.send("no object"); 
-		} else 
-		if (!obj == {}) {
-			res.send("object is empty");
 		} else {
-			console.log(obj);
 			var list = obj["supplies"];
-			keysSorted = Object.keys(list).sort();
+			if (!list) {
+				res.render('supplies', {
+					title: 'Supplies',
+					obj: JSON.stringify({}),
+					groupname: groupName
+				}) 
+			} else {
+				console.log(obj);
+				keysSorted = Object.keys(list).sort();
 			// console.log(keysSorted);
-			var sortedSupplies = {};
-			for (var i=0; i<keysSorted.length; i++) {
-				// console.log(keysSorted[i]);
-				// console.log(list[keysSorted[i]]);
-				var peopleList = list[keysSorted[i]];
-				console.log(peopleList);
-				peopleKeysSorted = Object.keys(peopleList).sort();
-				console.log(peopleKeysSorted);
-				var sortedPeople = {};
-				for (var j=0; j<peopleKeysSorted.length; j++) {
-					sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
-				}
+				var sortedSupplies = {};
+				for (var i=0; i<keysSorted.length; i++) {
+					// console.log(keysSorted[i]);
+					// console.log(list[keysSorted[i]]);
+					var peopleList = list[keysSorted[i]];
+					console.log(peopleList);
+					peopleKeysSorted = Object.keys(peopleList).sort();
+					console.log(peopleKeysSorted);
+					var sortedPeople = {};
+					for (var j=0; j<peopleKeysSorted.length; j++) {
+						sortedPeople[peopleKeysSorted[j]] = peopleList[peopleKeysSorted[j]];
+					}
 				// console.log(sortedPeople);
-				sortedSupplies[keysSorted[i]] = sortedPeople;
-				Account.findOne({username : 'ppp'}, function (err, obj) {
-					console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
-				});
+					sortedSupplies[keysSorted[i]] = sortedPeople;
+					Account.findOne({username : 'ppp'}, function (err, obj) {
+						console.log('\n\nh\n\n' + obj + '\n\nh\n\n');
+					});
+				}
+				console.dir(sortedSupplies);
+				res.render('supplies', {
+					title: 'Supplies',
+					obj: JSON.stringify(sortedSupplies),
+					groupname: groupName
+				}) 
 			}
-			console.dir(sortedSupplies);
-			res.render('supplies', {
-				title: 'Supplies',
-				obj: JSON.stringify(sortedSupplies),
-				groupname: groupName
-			}) 
 		}
 	}); 
 });
