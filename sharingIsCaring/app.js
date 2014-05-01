@@ -407,8 +407,6 @@ app.post('/removeItem', function(req,res) {
 				supplies: newSupply
 			});
 			console.log(new_doc);
-			// new_doc.supplies[newItem] = newSupply;
-			// console.log(new_doc);
 			new_doc.save(function(err, r){
 				if (err) return console.error(err);
 				console.dir(r);

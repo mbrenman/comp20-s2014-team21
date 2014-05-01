@@ -44,7 +44,7 @@ html
 					$.ajax
 					({
 						type: "POST",
-						url: 'http://enigmatic-meadow-1270.herokuapp.com/newGroup.json',
+						url: 'http://sharing-is-caring.herokuapp.com/newGroup.json',
 						dataType: 'json', 
 						async: false,
 						data: {"groupname": groupName, "members": memberNames, "items": groupItems},
@@ -52,7 +52,7 @@ html
 							console.log("k THX");
 						}
 					});
-					window.location.href = 'http://enigmatic-meadow-1270.herokuapp.com/mygroups'
+					window.location.href = 'http://sharing-is-caring.herokuapp.com/mygroups'
 				}, "jsonp");
 
 
