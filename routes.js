@@ -47,9 +47,9 @@ module.exports = function (app) {
 
   app.get('/sendemail', function(req, res){
       sendgrid.send({
-        to: 'brettgurman@gmail.com',
+        to: 'mattbrenman@gmail.com',
         from: 'sender@example.com',
-        subject: 'Hello World',
+        subject: 'Your turn to buy things!',
         text: 'Sending email with NodeJS through SendGrid!'
       }, function(err, json) {
       if (err) { return console.error(err); }
