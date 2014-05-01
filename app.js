@@ -9,6 +9,27 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL || 'mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873'
 
+
+//geolocation dependencies
+var geolocation = require('geolocation');
+
+var geolocate = require('node-geolocate');
+
+/*var geoip = require('geoip');
+var edition = geoip.check('/path/to/file');
+console.log(edition);
+var City = geoip.City;
+var city = new City('/path/to/GeoLiteCity.dat');
+var city_obj = city.lookupSync('8.8.8.8');
+console.log(city_obj);*/
+
+
+//global variables for Google Map
+var myLat = 42.418333;
+var myLng =  -71.106667;
+
+
+
 // main config
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -168,6 +189,21 @@ app.get('/newgroup', function (req, res) {
 	} catch (e) {
 		res.redirect('/');
 	}
+	console.log("~~~~~~~~~~geolocation~~~~~~~~~~");
+	geolocation.getCurrentPosition(function (err, position) {
+  		if (err) throw err;
+  		console.log(position);
+	});
+	// geolocate(function(latLong){
+   		// var latitude = latLong[0];
+   		// var longitude = latLong[1];
+   		// console.log(latLong);
+   		// if (latitude) {
+   			// console.log("latitude is: ",latitude);
+   		// } else {
+   			// console.log("no latitude for me");
+   		// }
+	// });
 	res.render('newgroup'); 
 })
 
