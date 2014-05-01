@@ -6,6 +6,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL || 'mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873'
+
 // main config
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -39,9 +42,10 @@ passport.use(new LocalStrategy({ usernameField: 'username',
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-// mongoose
-mongoose.connect('mongodb://heroku_app24397873:vv6qesmmtnc10cud82rfnae7r4@ds031847.mongolab.com:31847/heroku_app24397873');
 var db = mongoose.connection;
+
+// mongoose
+mongoose.connect(mongoUri);
 
 //Schemas
 var groupSchema = new mongoose.Schema({
@@ -49,14 +53,14 @@ var groupSchema = new mongoose.Schema({
 	supplies: { type: mongoose.Schema.Types.Mixed }
 });
 
-var Group = mongoose.model('Group', groupSchema);
+var Group = db.model('Group', groupSchema);
 
 var userSchema = new mongoose.Schema({
 	name: String,
 	groups: [ String ] //Groups that the member belongs to
 });
 
-var User = mongoose.model('User', userSchema);
+var User = db.model('User', userSchema);
 
 // routes
 require('./routes')(app);
@@ -185,12 +189,15 @@ app.post('/newGroup.json', function (req, res){
 		name: groupname,
 		supplies: supplylist
 	});
+	mongo.Db.connect(mongoUri, function (err, db){
+    	db.collection("groupz", function (er, col){
+    		col.insert({"name": groupname, "supplies": supplylist}, function (err, r){});
+    	});
+    });
+
 	d.save(function(err, r) {
-		 if(err){ 
-		    console.log("TEST Error:", err);
-		  }else{
-		    console.log("TEST success");
-		  }	
+		if (err) return console.error(err);
+  		console.dir(r);
 	});
 	addGroupToUsers(members, groupname);
     res.send("Successful entry!\n");
