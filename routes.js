@@ -3,7 +3,8 @@ var Account = require('./models/account');
 
 var sendgrid  = require('sendgrid')(
   process.env.SENDGRID_USERNAME,
-  process.env.SENDGRID_PASSWORD;
+  process.env.SENDGRID_PASSWORD
+);
 
 module.exports = function (app) {
     
