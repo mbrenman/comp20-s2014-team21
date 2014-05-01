@@ -1,3 +1,12 @@
+var passport = require('passport');
+var Account = require('./models/account');
+var request = require('request');
+
+var sendgrid  = require('sendgrid')(
+  process.env.SENDGRID_USERNAME,
+  process.env.SENDGRID_PASSWORD
+);
+
 // dependencies
 var path = require('path');
 var express = require('express');
@@ -42,7 +51,7 @@ passport.deserializeUser(Account.deserializeUser());
 var db = mongoose.connection;
 
 // mongoose
-mongoose.connect('mongodb://localhost/local');
+mongoose.connect('mongodb://heroku_app24725205:vg50ag18ubdl3df7236o3obniq@ds031777.mongolab.com:31777/heroku_app24725205');
 
 //Schemas
 var groupSchema = new mongoose.Schema({
@@ -174,6 +183,16 @@ app.get('/newgroup', function (req, res) {
 })
 
 app.post('/newGroup.json', function (req, res){
+	// req_str = "http://ipinfo.io/"+req.ip
+	// console.log("AHH  "+ req.ip);
+	// request(req_str, function(err, resp, body){
+	// 	body = JSON.parse(body);
+		
+	// 	console.log("WHEEEEEEEEEEEE  "+ req.ip);
+	// 	console.log(body);
+	// });
+
+
    	console.log('\n\n\n' + req.body + '\n\n\n');
 	var groupname = req.body.groupname;
 	var members = req.body.members;
@@ -272,7 +291,20 @@ app.post('/incrementItem.json', function(req, res){
   				min = new_doc.supplies[item][iter];
   			}	
   		}
-  		console.log("min person is: ", min_name, " ", min);
+  		Account.findOne({ username: min_name }, function (err, obj) {
+  			console.log("tttOBJ is: ", obj);
+	  		sendgrid.send({
+	        	to: obj['email'],
+	        	from: 'sharingiscaringcomp20@gmail.com',
+	        	subject: 'Buy things!',
+	        	text: 'You (' +min_name+ ') need to buy '+item+' for '+groupname
+	      	}, function(err, json) {
+	      		if (err) { return console.error(err); }
+	        	console.log(json);
+	      	});
+	  	});
+  		console.log("ttmin person is: ", min_name, " ", min);
+  		
   		new_doc.save(function(err, r) {
  			if (err) return console.error(err);
   			console.dir(r);

@@ -34,6 +34,7 @@
     "mocha": "~1.14.0",
     "chai": "~1.8.1",
     "should": "~2.1.0",
-    "sendgrid": "0.3.0-rc.1.7"
+    "sendgrid": "0.3.0-rc.1.7",
+    "request": "*"
   }
 }

@@ -26,7 +26,7 @@ html
           $.ajax
           ({
             type: "POST",
-            url: 'http://localhost:3000/incrementItem.json', 
+            url: 'http://enigmatic-meadow-1270.herokuapp.com/incrementItem.json', 
             async: false,
             data: {"groupname": groupName,"name": userName,"item": supply,"amount": increment}, 
             });
@@ -41,7 +41,7 @@ html
         $.ajax
         ({
           type: "POST",
-          url: 'http://localhost:3000/newItem',
+          url: 'http://enigmatic-meadow-1270.herokuapp.com/newItem',
           dataType: 'json', 
           async: false,
           data: {"groupname": groupName, "item": itemName},
@@ -64,7 +64,7 @@ html
           $.ajax
           ({
             type: "POST",
-            url: 'http://localhost:3000/removeItem',
+            url: 'http://enigmatic-meadow-1270.herokuapp.com/removeItem',
             dataType: 'JSON', 
             async: false,
             data: {"groupname": groupName, "item": itemName},

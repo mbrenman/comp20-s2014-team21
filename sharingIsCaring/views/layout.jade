@@ -34,19 +34,29 @@ html
 					groupItems.push($(this).val()); 
 				});
 
-				$.ajax
-				({
-					type: "POST",
-					url: 'http://localhost:3000/newGroup.json',
-					dataType: 'json', 
-					async: false,
-					data: {"groupname": groupName, "members": memberNames, "items": groupItems},
-					success: function () {
-						console.log("k THX");
-					}
-					});
+				$.get("http://ipinfo.io", function(response) {
+					console.log("LOCDATA")
+					console.log(response.ip, response.country);
+					groupName = groupName+" ("+response.city+", "+response.region+")"
+					
+					console.log(groupName);
 
-				window.location.href = 'http://localhost:3000/mygroups'
+					$.ajax
+					({
+						type: "POST",
+						url: 'http://enigmatic-meadow-1270.herokuapp.com/newGroup.json',
+						dataType: 'json', 
+						async: false,
+						data: {"groupname": groupName, "members": memberNames, "items": groupItems},
+						success: function () {
+							console.log("k THX");
+						}
+					});
+					window.location.href = 'http://enigmatic-meadow-1270.herokuapp.com/mygroups'
+				}, "jsonp");
+
+
+
 			}
 	body
 	block content
